@@ -7,17 +7,11 @@ import SideBar from "./component/sidebar/Sidebar.jsx";
 import Project from "./component/Project/Project.jsx";
 import ProjectDetail from "./component/ProjectDetail/ProjectDetail.jsx";
 import Dashboard from "./component/Dashboard/Dashboard.jsx";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
+import RouteHandler from "./routes/RouteHandler.jsx";
 function App() {
     const topics = ["Dashboard", "Project List", "Delivery"];
-    const content = [
-            <Dashboard/>,
-        <div>
-            <Project/>
-        </div>,
-        <div>
-            <ProjectDetail/>
-        </div>
-    ]
+    const link = ["/", "/project", "/delivery"];
     const [contentIndex, setContentIndex] = useState(0);
     const [selectedKey, setSelectedKey] = useState("0");
     const changeSelectedKey = (event) => {
@@ -28,20 +22,23 @@ function App() {
     const Menu = (
         <TopicMenu
             topics={topics}
+            link={link}
             selectedKey={selectedKey}
             changeSelectedKey={changeSelectedKey}
         />
     );
     return (
+        <BrowserRouter>
         <div className="App">
             <NavBar menu={Menu} />
             <Layout>
                 <SideBar menu={Menu} />
                 <Layout.Content className="content">
-                    {content[contentIndex]}
+                    <RouteHandler/>
                 </Layout.Content>
             </Layout>
         </div>
+        </BrowserRouter>
     );
 }
 export default App;
